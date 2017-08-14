@@ -94,16 +94,15 @@ public class BstMultiset<T> extends Multiset<T>
 		
 		if(pre == null)
 		{
-			pre = head;
 			h = true;
 		}
 		else if(pre.next != null && pre.next.equals(node))
 		{
-			left = true;
+			left = false;
 		}
 		else if(pre.previous != null && pre.previous.equals(node))
 		{
-			left = false;
+			left = true;
 		}
 		else
 		{
@@ -114,7 +113,7 @@ public class BstMultiset<T> extends Multiset<T>
 		{
 			if(h)
 			{
-				pre = null;
+				head = new BstNode<T>();
 			}
 			else if(left)
 			{
@@ -129,7 +128,7 @@ public class BstMultiset<T> extends Multiset<T>
 		{
 			if(h)
 			{
-				pre = node.previous;
+				head = node.previous;
 			}
 			else if(left)
 			{
@@ -144,7 +143,7 @@ public class BstMultiset<T> extends Multiset<T>
 		{
 			if(h)
 			{
-				pre = node.next;
+				head = node.next;
 			}
 			else if(left)
 			{
@@ -162,7 +161,7 @@ public class BstMultiset<T> extends Multiset<T>
 			
 			if(h)
 			{
-				pre = node.previous;
+				head = node.previous;
 			}
 			if(left)
 			{
