@@ -27,10 +27,6 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			nodeHead = addNode;
 			nodeTail = addNode;
 		}
-		
-		
-		
-		
 		else 
 		{
 			Node exNode = nodeHead;
@@ -59,12 +55,14 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 				exNode.setNodeCount(newCount);
 			}
 			else {
+				listLength++;
 				int index = 0;
 				Node currNode = nodeHead;
 				
 				Node addNode = new Node(item, count);
 				while (currNode != null)
 				{
+					
 					
 					if (addNode.getNodeItem().toString().compareTo(
 							currNode.getNodeItem().toString()) < 0)
@@ -83,10 +81,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 							currNode.getPrevNode().setNextNode(addNode);
 							currNode.setPrevNode(addNode);
 							addNode.setNextNode(currNode);
-							
-					
-							
-							
+
 						}
 						break;
 					}
@@ -112,7 +107,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			}
 			
 		}
-		listLength++;
+	
 		
 	} // end of add()
 	
@@ -159,12 +154,13 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		// Implement me!
 		int count = 0;
 		int index = 0;
+		boolean exists = false;
 		Node tempNode = nodeHead;
-		
 		while(tempNode != null)
 		{
 			if (tempNode.getNodeItem().equals(item))
 			{
+				exists = true;
 				break;
 			}
 			
@@ -172,42 +168,23 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			index++;
 		}
 		
-		if (tempNode.getNodeCount() > 0)
+		if (exists == true)
 		{
 			count = tempNode.getNodeCount() - 1;
-			tempNode.setNodeCount(count);
-			
-		}
-		
-		else {
-		
-		    
-			//if it is the head
-			if (index == 0)
+			if (count > 0)
 			{
-				nodeHead = tempNode.getNextNode();
-				nodeHead.setPrevNode(null);
-				listLength --;
-				tempNode = null;
+				tempNode.setNodeCount(count);
 			}
-			//if it is the tail
-			else if(index == listLength - 1)
-			{
-				nodeTail = tempNode.getPrevNode();
-				nodeTail.setNextNode(null);
-				listLength --;
-				tempNode = null;
-			}
-			
 			else {
-				tempNode.getPrevNode().setNextNode(tempNode.getNextNode());
-				tempNode.getNextNode().setPrevNode(tempNode.getPrevNode());
-				listLength --;
 				
-				tempNode.setNodeItem(null);
-				tempNode = null;
+			    
+				//if it is the head
+				removeAll(item);
 			}
+			
 		}
+		
+		
 	} // end of removeOne()
 	
 	
@@ -215,46 +192,58 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		// Implement me!
 		Node tempNode = nodeHead;
 		Node previous = null;
-		do
+		boolean exists = false;
+		if (search(item) != 0)
 		{
-			if(tempNode.nItem.equals(item))
+			do
 			{
-				break;
+				if(tempNode.nItem.equals(item))
+				{
+					exists = true;
+					break;
+				}
+				else
+				{
+					previous = tempNode;
+					tempNode = tempNode.nextNode;
+				}
 			}
-			else
-			{
-				previous = tempNode;
-				tempNode = tempNode.nextNode;
+			while(tempNode != null);
+			if (exists == true) {
+				if(previous == null)
+				{
+					if(tempNode.nextNode == null)
+					{
+						nodeHead = null;
+						listLength--;
+					}
+					else
+					{
+						nodeHead = tempNode.nextNode;
+						tempNode.nextNode.prevNode = nodeHead;
+						tempNode = null;
+						listLength--;
+					}
+					
+				}
+				else if(tempNode.nextNode == null)
+				{
+					
+					nodeTail = tempNode.getPrevNode();
+					tempNode = null;
+					listLength--;
+				}
+				else
+				{
+					previous.nextNode = tempNode.nextNode;
+					tempNode.nextNode.prevNode = previous;
+					listLength--;
+					tempNode.setNodeItem(null);
+					tempNode = null;
+				}
 			}
 		}
-		while(tempNode != null);
 		
-		if(previous == null)
-		{
-			if(tempNode.nextNode == null)
-			{
-				nodeHead = null;
-				listLength--;
-			}
-			else
-			{
-				nodeHead = tempNode.nextNode;
-				tempNode.nextNode.prevNode = nodeHead;
-				listLength--;
-			}
-			
-		}
-		else if(tempNode.nextNode == null)
-		{
-			previous.nextNode = null;
-			listLength--;
-		}
-		else
-		{
-			previous.nextNode = tempNode.nextNode;
-			tempNode.nextNode.prevNode = previous;
-			listLength--;
-		}
 		
 	} // end of removeAll()
 
@@ -264,17 +253,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		// Implement me!
 		Node tempNode = nodeHead;
 		int counter = 0;
+		out.println(listLength);
 		while (tempNode != null)
 		{	
-			if (tempNode.getNodeCount() != 0)
-			{
-				System.out.println(tempNode.getNodeItem() + " | " + tempNode.getNodeCount());
-				System.out.print("\n");
-			}
-	
-			tempNode = tempNode.getNextNode();
+			out.println(tempNode.getNodeItem() + " | " + tempNode.getNodeCount());
 			
-			
+			tempNode = tempNode.getNextNode();			
 		}
 	} // end of print()
 	private class Node

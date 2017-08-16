@@ -89,7 +89,10 @@ public class LinkedListMultiset<T> extends Multiset<T>
 			tempNode = tempNode.getNextNode();
 		}
 		
-		count = tempNode.getNodeCount();
+		if(tempNode != null)
+		{
+			count = tempNode.getNodeCount();
+		}
 		
 		if (count > 0)
 		{
@@ -104,14 +107,16 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void removeOne(T item) {
 		// Implement me!
+	
 		int count = 0;
 		int index = 0;
+		boolean exists = false;
 		Node tempNode = nodeHead;
-		
 		while(tempNode != null)
 		{
 			if (tempNode.getNodeItem().equals(item))
 			{
+				exists = true;
 				break;
 			}
 			
@@ -119,43 +124,21 @@ public class LinkedListMultiset<T> extends Multiset<T>
 			index++;
 		}
 		
-		if (tempNode.getNodeCount() > 0)
+		if (exists == true)
 		{
 			count = tempNode.getNodeCount() - 1;
-			tempNode.setNodeCount(count);
-			
-		}
-		
-		else {
-		
-		    
-			//if it is the head
-			if (index == 0)
+			if (count > 0)
 			{
-				nodeHead = tempNode.getNextNode();
-				nodeHead.setPrevNode(null);
-				listLength --;
-				tempNode = null;
+				tempNode.setNodeCount(count);
 			}
-			//if it is the tail
-			else if(index == listLength - 1)
-			{
-				nodeTail = tempNode.getPrevNode();
-				nodeTail.setNextNode(null);
-				listLength --;
-				tempNode = null;
-			}
-			
 			else {
-				tempNode.getPrevNode().setNextNode(tempNode.getNextNode());
-				tempNode.getNextNode().setPrevNode(tempNode.getPrevNode());
-				listLength --;
 				
-				tempNode.setNodeItem(null);
-				tempNode = null;
+			    
+				//if it is the head
+				removeAll(item);
 			}
-		}
 			
+		}
 		
 		
 	} // end of removeOne()
@@ -179,7 +162,11 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		}
 		while(tempNode != null);
 		
-		if(previous == null)
+		if(tempNode == null)
+		{
+			return;
+		}
+		else if(previous == null)
 		{
 			if(tempNode.nextNode == null)
 			{
@@ -215,15 +202,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		int counter = 0;
 		while (tempNode != null)
 		{	
-		
-			
-			if (tempNode.getNodeCount() != 0)
-			{
-				System.out.println(tempNode.getNodeItem() + " | " + tempNode.getNodeCount());
-				System.out.print("\n");
-			}
-			
-	
+			out.println(tempNode.getNodeItem() + " | " + tempNode.getNodeCount());
 			tempNode = tempNode.getNextNode();
 			
 			
