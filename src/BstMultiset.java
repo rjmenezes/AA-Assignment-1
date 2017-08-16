@@ -196,7 +196,7 @@ public class BstMultiset<T> extends Multiset<T>
 		}
 		else
 		{
-			if( Long.parseLong((String) data) > Long.parseLong((String) current.data)) //greater than, insert on the right if empty
+			if(String.valueOf(current.data).compareTo(String.valueOf(data)) > 0) //greater than, insert on the right if empty
 			{
 				if(current.next == null)
 				{
