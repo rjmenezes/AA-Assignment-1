@@ -163,7 +163,7 @@ public class BstMultiset<T> extends Multiset<T>
 			{
 				head = node.previous;
 			}
-			if(left)
+			else if(left)
 			{
 				pre.previous = node.previous;
 			}
@@ -229,7 +229,7 @@ public class BstMultiset<T> extends Multiset<T>
 		}
 		else
 		{
-			if(Long.parseLong((String) data) > Long.parseLong((String) current.data)) //greater than, find on the right
+			if(String.valueOf(current.data).compareTo(String.valueOf(data)) > 0) //greater than, find on the right
 			{
 				if(current.next == null) // if right is empty then return null
 				{
@@ -262,7 +262,7 @@ public class BstMultiset<T> extends Multiset<T>
 		}
 		else
 		{
-			if(Long.parseLong((String) data) > Long.parseLong((String) current.data)) //greater than, find on the right
+			if(String.valueOf(current.data).compareTo(String.valueOf(data)) > 0) //greater than, find on the right
 			{
 				if(current.next == null) // if right is empty then return null
 				{
