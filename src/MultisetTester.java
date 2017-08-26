@@ -118,7 +118,7 @@ public class MultisetTester
 	public static void main(String[] args) {
 
 		// check number of command line arguments
-		if (args.length > 2 || args.length < 1) {
+		if (args.length > 3 || args.length < 1) {
 			System.err.println("Incorrect number of arguments.");
 			usage(progName);
 		}
@@ -126,8 +126,12 @@ public class MultisetTester
 		String implementationType = args[0];
 		
 		String searchOutFilename = null;
+		String inReaderFilename = null;
 		if (args.length == 2) {
 			searchOutFilename = args[1];
+		}
+		if (args.length == 3){
+			inReaderFilename = args[2];
 		}
 		
 		
@@ -163,8 +167,19 @@ public class MultisetTester
 			if (searchOutFilename != null) {
 				searchOutWriter = new PrintWriter(new FileWriter(searchOutFilename), true);
 			}
+			if(inReaderFilename != null){
+				inReader = new BufferedReader(new FileReader(inReaderFilename));
+			}
 			// process the operations
+			long startTime = System.nanoTime();
 			processOperations(inReader, searchOutWriter, multiset);
+			
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			double timems =  duration/1000000;
+			System.out.println("Time taken: " + duration + " ns");
+			System.out.println("Time taken: " + timems + " ms");
+			
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
